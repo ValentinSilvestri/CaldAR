@@ -1,0 +1,22 @@
+{
+  "name": "caldar",
+  "version": "1.0.0",
+  "description": "development of the application for the CaldAR company",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fncordoba/CaldAR.git"
+  },
+  "author": "group-t5",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fncordoba/CaldAR/issues"
+  },
+  "homepage": "https://github.com/fncordoba/CaldAR#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
