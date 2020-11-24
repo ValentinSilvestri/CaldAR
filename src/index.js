@@ -50,7 +50,7 @@ app.get('/getCompaniesByBuildingId/:buildingId', (req, res) => {
 });
 
 app.get("/getTechniciansById/:id", (req, res) => {
-  const id = req.params.id.toString();
+  const id = req.params.id;
   const technician = techniciansController.getTechniciansById(id);
   if (technician){
     res.json(technician);
@@ -75,6 +75,12 @@ app.get("/getTechniciansBy/:name/:lastName", (req, res) => {
   const lastName = req.params.lastName;
   const technician = techniciansController.getTechniciansBy(name, lastName);
   res.json(technician);
+});
+
+app.get("/removeTechniciansBy/:id", (req, res) => {
+  const id = req.params.id;
+  const result = techniciansController.removeTechniciansBy(id);
+  res.send(result);
 });
 
 app.listen(port, () => {
