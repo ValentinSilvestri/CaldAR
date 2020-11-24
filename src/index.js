@@ -3,6 +3,7 @@ const techniciansController = require('./controllers/techniciansController');
 const boylerTypesController = require('./controllers/boylerTypesController')
 const companiesController = require('./controllers/companiesController');
 const boylersController = require('./controllers/boylersController');
+const buildingsController = require('./controllers/buildingsController');
 
 const app = express();
 const port = 3000;
@@ -16,6 +17,33 @@ app.get("/getAllBoylerTypes", (req, res) => {
   const boylerTypes = boylerTypesController.getAllBoylerTypes();
   res.json(boylerTypes)
 });
+
+app.get("/getAllBuildings", (req, res) => {
+    const buildings = buildingsController.getAllBuildings();
+    res.json(buildings);
+});
+
+app.get("/getBuildingsByAddress/:address", (req, res) => {
+    const address = req.params.address;
+    const buildingsByAddress = buildingsController.getBuildingsByAddress(address);
+    res.json(buildingsByAddress);
+});
+
+app.get("/getBuildingsById/:id", (req, res) => {
+    const id = req.params.id;
+    const building = buildingsController.getBuildingById(id);
+  if (building){
+    res.json(building);
+  } else {
+    res.send('No building found with the Id: ' + id);
+  }
+});
+
+app.get("/removeBuilding/:id", (req, res) => {
+        const id = req.params.id;
+        const buildings = buildingsController.deleteBuildingById(id);
+        res.json(buildings);
+    });
 
 app.get("/getAllCompanies", (req, res) => {
   const companies = companiesController.getAllCompanies()
@@ -90,6 +118,7 @@ app.get("/removeTechniciansBy/:id", (req, res) => {
   const result = techniciansController.removeTechniciansBy(id);
   res.send(result);
 });
+
 app.get ("/removeBoylerTypeById/:id", (req,res) => {
   const id = req.params.id;
   const result = boylerTypesController.removeBoylerTypeById(id);
