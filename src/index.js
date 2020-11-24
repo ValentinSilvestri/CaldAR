@@ -49,6 +49,14 @@ app.get('/getCompaniesByBuildingId/:buildingId', (req, res) => {
   res.json(companies);
 });
 
+app.get('/removeCompanyById/:id', (req, res) => {
+  const id = req.params.id;
+  const result = companiesController.removeCopmanyById(id);
+  res.json({
+    msg: result
+  });
+});
+
 app.get("/getTechniciansById/:id", (req, res) => {
   const id = req.params.id;
   const technician = techniciansController.getTechniciansById(id);
