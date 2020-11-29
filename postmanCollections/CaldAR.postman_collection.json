@@ -4,6 +4,24 @@
 		"name": "CaldAR",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": [],
+	"item": [
+		{
+			"name": "Boilers",
+			"item": [
+				{
+					"name": "http://localhost:3000/boilers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
 	"protocolProfileBehavior": {}
 }
