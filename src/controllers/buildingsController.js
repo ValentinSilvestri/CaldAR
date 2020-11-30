@@ -63,9 +63,30 @@ const deleteBuilding = async (req, res) => {
   }
 };
 
+const updateBuilding = async (req, res) => {
+  const { id } = req.params;
+  if (!req.body.name || !req.body.phone || !req.body.address || !req.body.boilers) {
+    return res.status(500).json({
+      msg: 'Missing required fields to create a building'
+    });
+  }
+  try {
+    const result = await models.Building.findByIdAndUpdate(id, req.body, { new: true, });
+    return res.status(200).json({
+      msg: 'Updated building below',
+      result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: 'An error appeared while updating the building',
+    });
+  }
+};
+
 module.exports = {
   getAllBuildings,
   createBuilding,
   findById,
   deleteBuilding,
+  updateBuilding,
 };
