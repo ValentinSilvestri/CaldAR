@@ -1,10 +1,8 @@
-const fs = require('fs');
 const models = require('../models');
-let buildings = require('../data/buildings.json');
 
 const getAllBuildings = async (req, res) => {
   try {
-    const buildingsFromDB = await models.building.find({});
+    const buildingsFromDB = await models.Building.find({});
     res.status(200).json(buildingsFromDB);
   } catch (error) {
     res.status(500).json({
@@ -13,27 +11,32 @@ const getAllBuildings = async (req, res) => {
   }
 };
 
-const getBuildingsByAddress = address => buildings.filter(building => building.address === address);
+const createBuilding = async (req, res) => {
+  if (!req.body.name || !req.body.phone || !req.body.address || !req.body.boilers) {
+    return res.status(500).json({
+      msg: 'Missing required fields to create a building'
+    });
+  }
 
-const getBuildingById = id => {
-  const building = buildings.find(buildingItem => buildingItem.id.toString() === id);
-  return building;
-};
-
-const deleteBuildingById = id => {
-  buildings = buildings.filter(building => building.id.toString() !== id);
-  fs.writeFileSync(
-    `${__dirname}/../data/buildings.json`,
-    JSON.stringify(buildings),
-    { encoding: 'utf8', flag: 'w' },
-  );
-
-  return buildings;
+  const building = new models.Building({
+    name: req.body.name,
+    address: req.body.address,
+    company: req.body.company,
+    phone: req.body.phone,
+    boilers: req.body.boilers,
+  });
+  try {
+    const result = await building.save();
+    return res.status(200).json(result);
+  } catch (error) {
+    // Error
+    return res.status(500).json({
+      msg: 'An error appeared while registering a new building',
+    });
+  }
 };
 
 module.exports = {
   getAllBuildings,
-  getBuildingsByAddress,
-  getBuildingById,
-  deleteBuildingById,
+  createBuilding,
 };
