@@ -490,7 +490,35 @@
 		},
 		{
 			"name": "Companies",
-			"item": [],
+			"item": [
+				{
+					"name": "createCompanies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Mauricio\",\r\n    \"address\":\"Viamonte 028910\",\r\n    \"cuit\":\"0258963\",\r\n    \"phone\":\"123698547\",\r\n    \"email\":\"mauricio@rr.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
@@ -534,15 +562,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/appointments/",
+							"raw": "http://localhost:3000/companies",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"appointments",
-								""
+								"companies"
 							]
 						}
 					},
