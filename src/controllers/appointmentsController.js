@@ -1,24 +1,30 @@
 const models = require('../models');
 
-const findAll = async (req, res) => {
+const getAllAppointments = async (req, res) => {
   try {
     const appointments = await models.Appointments.find({});
-    res.status(200).json(appointments);
+
+    return res.status(200).json(appointments);
   } catch (error) {
-    res.status(500).json({
-      msg: 'An error appeared while finding appointments',
+    return res.status(500).json({
+      msg: 'An error has occurred',
     });
   }
 };
 
-const findById = async (req, res) => {
-  const { id } = req.params;
+const getAppointmentById = async (req, res) => {
   try {
-    const result = await models.Appointments.findById(id);
-    res.status(200).json(result);
+    const appointment = await models.Appointments.findById(req.params.id);
+
+    if (!appointment) {
+      return res.status(400).json({
+        msg: 'The appointment has not been found'
+      });
+    }
+    return res.status(200).json(appointment);
   } catch (error) {
-    res.status(500).json({
-      msg: `Could'n find an appointment with id of ${id}`,
+    return res.status(500).json({
+      msg: 'An error has occurred',
     });
   }
 };
@@ -26,8 +32,8 @@ const findById = async (req, res) => {
 const createAppointment = async (req, res) => {
   if (!req.body.building || !req.body.boiler || !req.body.technician
     || !req.body.type || !req.body.monthlyHours) {
-    return res.status(500).json({
-      msg: 'Missing required fields to create an appointment',
+    return res.status(400).json({
+      msg: 'Error: Missing required fields to create an appointment',
     });
   }
 
@@ -41,57 +47,66 @@ const createAppointment = async (req, res) => {
 
   try {
     const result = await appointment.save();
+
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({
-      msg: 'An error appeared while creating the appointment',
+      msg: 'An error has occurred',
     });
   }
 };
 
-const deleteAppointmentById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const result = await models.Appointments.findByIdAndDelete(id);
-    res.status(200).json({
-      message: `The appointment with an id: ${id} has been deleted.`,
-      result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: `Error. The appointment with an id: ${id} couldn't be deleted.`,
-    });
-  }
-};
-
-const updateAppointmentById = async (req, res) => {
-  const { id } = req.params;
+const updateAppointment = async (req, res) => {
   if (!req.body.building
     || !req.body.boiler
     || !req.body.technician
     || !req.body.type
     || !req.body.monthlyHours) {
-    return res.status(500).json({
-      message: 'Error. All fields must be filled to update the appointment record.',
+    return res.status(400).json({
+      msg: 'Error: Missing required fields to update an appointment',
     });
   }
   try {
-    const result = await models.Appointments.findByIdAndUpdate(id, req.body, { new: true, });
+    const result = await models.Appointments.findByIdAndUpdate(
+      req.params.id, req.body, { new: true, }
+    );
+
+    if (!result) {
+      return res.status(400).json({
+        msg: 'The appointment has not been found'
+      });
+    }
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      msg: 'An error has occurred',
+    });
+  }
+};
+
+const deleteAppointment = async (req, res) => {
+  try {
+    const result = await models.Appointments.findByIdAndDelete(req.params.id);
+
+    if (!result) {
+      return res.status(400).json({
+        msg: 'The appointment has not been found'
+      });
+    }
     return res.status(200).json({
-      message: `The appointment with an id: ${id} has been updated.`,
-      result
+      msg: 'The appointment has been deleted'
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Error. The appointment with an id: ${id} couldn't be updated.`,
+      msg: 'An error has occurred'
     });
   }
 };
 
 module.exports = {
-  findAll,
-  findById,
+  getAllAppointments,
+  getAppointmentById,
   createAppointment,
-  deleteAppointmentById,
-  updateAppointmentById,
+  updateAppointment,
+  deleteAppointment,
 };
