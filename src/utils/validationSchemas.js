@@ -1,5 +1,22 @@
 const Joi = require('joi');
 
+const boilersSchema = Joi.object({
+  description: Joi.string()
+    .required(),
+  boilerType: Joi.string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required(),
+  hourMaintenanceCost: Joi.number()
+    .min(0)
+    .required(),
+  hourEventualCost: Joi.number()
+    .min(0)
+    .required(),
+  maintenanceRate: Joi.number()
+    .min(0)
+    .required(),
+});
+
 const companiesSchema = Joi.object({
   name: Joi.string()
     .min(3)
@@ -29,6 +46,7 @@ const idSchema = Joi.object().keys({
 });
 
 module.exports = {
+  boilersSchema,
   companiesSchema,
   idSchema
 };
