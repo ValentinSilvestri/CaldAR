@@ -118,4 +118,5 @@ module.exports = {
   createAppointment,
   updateAppointment,
   deleteAppointment,
+  validateAppointment,
 };
